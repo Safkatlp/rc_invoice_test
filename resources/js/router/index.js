@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Home from "../components/Home";
 import CreateInvoice from "../components/CreateInvoice";
 import Invoices from "../components/Invoices";
+import Invoice from "../components/Invoice";
 
 
 // middlewares
@@ -24,6 +25,11 @@ const routes = [
         path: "/invoices",
         name: "Invoices",
         component: Invoices
+    },
+    {
+        path: "/invoice/:id",
+        name: "Invoice",
+        component: Invoice
     },
 
 

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('customer_phone');
             $table->timestamp('inv_date')->nullable();
             $table->timestamp('due_date')->nullable();
+            $table->string('subtotal');
             $table->string('tax');
             $table->string('total');
             $table->timestamps();
