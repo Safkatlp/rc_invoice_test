@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Inv Creator</title>
 
         <!-- Fonts -->
         <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -35,6 +35,12 @@
         <link href="{{asset('css/app.css')}}" rel="stylesheet">
     </head>
     <body class="antialiased">
+        <div class="loader-container hide" id="loader-container">
+                    <div class="loader"></div>
+        </div>
+
+
+        {{-- Vue application --}}
         <div id="app"></div>
 
         <script src="{{asset('js/jquery-1.12.4.min.js')}}"></script>
@@ -42,12 +48,9 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="{{ asset('js/share.js') }}"></script>
-        {{-- Vue application --}}
+        
         <script defer>
-            window.$ = jQuery;
-            // window.$(function() {
-            //   window.$('.selectpicker').selectpicker();
-            //   });
+            window.$ = jQuery;            
           </script>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>

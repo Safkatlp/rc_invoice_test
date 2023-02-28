@@ -21,7 +21,6 @@ class HomeController extends Controller
             $pdf = Pdf::loadView('invoice',["products"=>$products, "invoice" =>$invoice[0]]);
             return $pdf->download('invoice.pdf');
 
-            //return view('invoice',["products"=>$products, "invoice" =>$invoice[0]]);
         }
         else{
             echo "Sorry!! Invoice Not Found";

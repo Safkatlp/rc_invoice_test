@@ -255,22 +255,11 @@ export default {
 			.then(r => r.json())
 			.then(r=>{
 				this.products = r.products;
-                console.log(this.products);
+                // //console.log(this.products);
 			});
         
     },
     methods: {
-        //  await fetch('/api/invoices',{
-				
-		// 		"method" : "GET"
-		// 	})
-		// 	.then(r => r.json())
-		// 	.then(r=>{
-		// 		this.invoices = r.invoices;
-        //         console.log(this.invoices);
-        //         this.invoices = r.invoices.data;
-        //         this.pagination = r.invoices;
-		// 	});
 
         async fetchPageData(url=null, attempt = 0) {
 
@@ -283,13 +272,13 @@ export default {
 			})
             .then(r => r.json())
 			.then(r=>{
-				// this.invoices = r.invoices;
-                // console.log(this.invoices);
+				
                 this.invoices = r.invoices.data;
                 this.pagination = r.invoices;
 			});
 
 		},
+
          // pagination
 		async gotoPage(url) {
 			let u = `api/orders/filter`;
@@ -301,6 +290,7 @@ export default {
 			}
 		},
 
+        //selects a specific invoice from invoice list
         async selectInvoice(id){
             await fetch(`/api/invoices/products/${id}`,{
 				
@@ -309,13 +299,10 @@ export default {
 			.then(r => r.json())
 			.then(r=>{
 				this.addedProducts = r.products;
-                console.log(this.addedProducts);
+                //console.log(this.addedProducts);
 			});
 
             this.selectedInvoice = this.invoices.find( (item) => item.id == id );
-
-            //console.log(this.selectedInvoice);
-            //this.addedProducts = this.selectedInvoice.products;
             this.customer_name = this.selectedInvoice.customer_name;
             this.customer_phone = this.selectedInvoice.customer_phone;
             this.customer_city = this.selectedInvoice.customer_city;
@@ -326,7 +313,10 @@ export default {
             this.tax = Number(this.selectedInvoice.tax);
         },
 
+        //add products to edit modal side table
         addProducts(){
+
+           //check if product is already added to table 
             if(this.addedProducts.find( (item) => item.product_id == this.selectedProduct.id)){
                 Swal.fire({
                     
@@ -374,6 +364,7 @@ export default {
                 
             }
             else{
+                //pushing products to table
                 this.addedProducts.push( {
                     "product_id":this.selectedProduct.id,
                     "name":this.selectedProduct.name,
@@ -387,14 +378,15 @@ export default {
                 this.selectedProduct = [];
                 this.selectedProductID = '';
                 this.qty = '';
-                console.log(this.addedProducts);
+                //console.log(this.addedProducts);
             }
             
         },
 
+        //remove from side table
         remove(id){
-            console.log(id);
-            console.log(this.addedProducts);
+            //console.log(id);
+            //console.log(this.addedProducts);
             let price = this.addedProducts.find( (item) => item.product_id == id ).rate;
             let qty = this.addedProducts.find( (item) => item.product_id == id ).qty;
             this.addedProducts = this.addedProducts.filter( (item) => item.product_id != id );
@@ -402,22 +394,26 @@ export default {
             this.calculateOnRemove(price,qty);
         },
 
+        //re-calculates total amount if tax value get changes
         reCalculate(){
             this.total = Math.round( (this.subtotal + (this.subtotal * this.tax * 0.01) )*100 ) /100;
         },
 
+        //re-calculate after removing an item from side table
         calculateOnRemove(price, qty){
             this.subtotal = Math.round( (this.subtotal - (price * qty) )*100 ) /100;
             this.total = Math.round( (this.subtotal + (this.subtotal * this.tax * 0.01) )*100 ) /100;
         },
 
+        //selects a products from products dropdown
         pickProduct(id){
             this.selectedProduct = this.products.find( (item) => item.id == id );
-            console.log(this.selectedProduct);
+            //console.log(this.selectedProduct);
         },
 
         UpdateInvoice(){
-
+            //toggling prelaoder
+            document.querySelector("#loader-container")?.classList.toggle("hide");
             if(!this.customer_name){
                 Swal.fire({                    
                     icon: 'error',
@@ -505,13 +501,14 @@ export default {
                 .then( r => r.json())
                 .then( r => {
                     if(r.msg == "success"){
-
+                        document.querySelector("#loader-container")?.classList.toggle("hide");
                         Swal.fire(
                             'Succesfully Updated',
                             ``,
                             'success'
                         )
         
+                        //replacing old valued with new values
                         this.selectedInvoice.customer_name =  this.customer_name ;
                         this.selectedInvoice.customer_phone =  this.customer_phone ;
                         this.selectedInvoice.customer_city = this.customer_city ;
@@ -521,6 +518,7 @@ export default {
                         this.selectedInvoice.subtotal = this.subtotal ;
                         this.selectedInvoice.tax =  this.tax;
 
+                        //resetting fields
                         this.customer_name = '';
                         this.customer_phone = '';
                         this.customer_street = '';
@@ -533,6 +531,7 @@ export default {
                         window.$('#bd-example-modal-lg').modal('toggle');
                     }
                     else{
+                        document.querySelector("#loader-container")?.classList.toggle("hide");
                         Swal.fire(
                             'Failed',
                             ``,
@@ -556,6 +555,7 @@ export default {
             confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
             if (result.isConfirmed) {
+                document.querySelector("#loader-container")?.classList.toggle("hide");
 
                 let payload = new FormData();
 
@@ -569,6 +569,7 @@ export default {
                     .then( r => r.json())
                     .then( r => {
                         if(r.msg == "success"){
+                            document.querySelector("#loader-container")?.classList.toggle("hide");
                             this.invoices = this.invoices.filter( (item) => item.id != InvId );
                         
                             Swal.fire(
@@ -579,6 +580,7 @@ export default {
                             
                         }
                         else{
+                            document.querySelector("#loader-container")?.classList.toggle("hide");
                             Swal.fire(
                                 'Failed',
                                 ``,

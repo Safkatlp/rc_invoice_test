@@ -104,7 +104,7 @@ export default {
 		.then(r => r.json())
 		.then(r=>{
 			this.invoice = r.invoice[0];
-            console.log(this.invoice);
+            //console.log(this.invoice);
 		});
 
         await fetch(`/api/invoices/products/${this.$route.params.id}`,{
@@ -114,13 +114,14 @@ export default {
 		.then(r => r.json())
 		.then(r=>{
 			this.products = r.products;
-            console.log(this.products);
+            //console.log(this.products);
 		});
 
         
     },
 
     methods: {
+        //formats date
          getInvDate(date){
             const month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Augt","Sep","Oct","Nov","Dec"];
             const newDate = new Date(date);

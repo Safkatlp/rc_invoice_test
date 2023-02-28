@@ -17732,7 +17732,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return r.json();
             }).then(function (r) {
               _this.products = r.products;
-              console.log(_this.products);
+              //console.log(this.products);
             });
           case 2:
           case "end":
@@ -17742,8 +17742,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
+    // add products to side table for purchase
     addProducts: function addProducts() {
       var _this2 = this;
+      //check if product is already added to table 
       if (this.addedProducts.find(function (item) {
         return item.id == _this2.selectedProduct.id;
       })) {
@@ -17783,6 +17785,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
         document.querySelector("#add_product_qty").focus();
       } else {
+        //pushing products to table
         this.addedProducts.push({
           "id": this.selectedProduct.id,
           "name": this.selectedProduct.name,
@@ -17795,12 +17798,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.selectedProduct = [];
         this.selectedProductID = '';
         this.qty = '';
-        console.log(this.addedProducts);
+        //console.log(this.addedProducts);
       }
     },
+    //re-calculates total amount if tax value get changes
     reCalculate: function reCalculate() {
       this.total = Math.round((this.subtotal + this.subtotal * this.tax * 0.01) * 100) / 100;
     },
+    //remove from side table
     remove: function remove(id) {
       var price = this.addedProducts.find(function (item) {
         return item.id == id;
@@ -17813,12 +17818,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       this.calculateOnRemove(price, qty);
     },
+    //re-calculate after removing an item from side table
     calculateOnRemove: function calculateOnRemove(price, qty) {
       this.subtotal = Math.round((this.subtotal - price * qty) * 100) / 100;
       this.total = Math.round((this.subtotal + this.subtotal * this.tax * 0.01) * 100) / 100;
     },
     createInvoice: function createInvoice() {
-      var _this3 = this;
+      var _document$querySelect,
+        _this3 = this;
+      //toggling the preloader
+      (_document$querySelect = document.querySelector("#loader-container")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.classList.toggle("hide");
       if (!this.customer_name) {
         Swal.fire({
           icon: 'error',
@@ -17884,6 +17893,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return r.json();
         }).then(function (r) {
           if (r.msg == "success") {
+            var _document$querySelect2;
+            (_document$querySelect2 = document.querySelector("#loader-container")) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.classList.toggle("hide");
             Swal.fire('Succesfully Created', "", 'success');
             _this3.customer_name = '';
             _this3.customer_phone = '';
@@ -17895,19 +17906,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             _this3.total = 0;
             _this3.tax = 0;
           } else {
+            var _document$querySelect3;
+            (_document$querySelect3 = document.querySelector("#loader-container")) === null || _document$querySelect3 === void 0 ? void 0 : _document$querySelect3.classList.toggle("hide");
             Swal.fire('Failed', "", 'error');
           }
         });
       }
     },
+    //selected product from products dropdown list
     pickProduct: function pickProduct(id) {
       this.selectedProduct = this.products.find(function (item) {
         return item.id == id;
       });
-      console.log(this.selectedProduct);
-    },
-    show: function show() {
-      swal.fire('ss', '', 'success');
+      //console.log(this.selectedProduct);
     }
   }
 });
@@ -17926,11 +17937,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  methods: {
-    show: function show() {
-      swal.fire('ss', '', 'success');
-    }
-  }
+  methods: {}
 });
 
 /***/ }),
@@ -17970,7 +17977,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return r.json();
             }).then(function (r) {
               _this.invoice = r.invoice[0];
-              console.log(_this.invoice);
+              //console.log(this.invoice);
             });
           case 2:
             _context.next = 4;
@@ -17980,7 +17987,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return r.json();
             }).then(function (r) {
               _this.products = r.products;
-              console.log(_this.products);
+              //console.log(this.products);
             });
           case 4:
           case "end":
@@ -17990,6 +17997,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
+    //formats date
     getInvDate: function getInvDate(date) {
       var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Augt", "Sep", "Oct", "Nov", "Dec"];
       var newDate = new Date(date);
@@ -18121,7 +18129,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return r.json();
             }).then(function (r) {
               _this.products = r.products;
-              console.log(_this.products);
+              // //console.log(this.products);
             });
           case 4:
           case "end":
@@ -18131,16 +18139,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
-    //  await fetch('/api/invoices',{
-    // 		"method" : "GET"
-    // 	})
-    // 	.then(r => r.json())
-    // 	.then(r=>{
-    // 		this.invoices = r.invoices;
-    //         console.log(this.invoices);
-    //         this.invoices = r.invoices.data;
-    //         this.pagination = r.invoices;
-    // 	});
     fetchPageData: function fetchPageData() {
       var _arguments = arguments,
         _this2 = this;
@@ -18160,8 +18158,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               }).then(function (r) {
                 return r.json();
               }).then(function (r) {
-                // this.invoices = r.invoices;
-                // console.log(this.invoices);
                 _this2.invoices = r.invoices.data;
                 _this2.pagination = r.invoices;
               });
@@ -18193,6 +18189,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
+    //selects a specific invoice from invoice list
     selectInvoice: function selectInvoice(id) {
       var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
@@ -18206,15 +18203,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return r.json();
               }).then(function (r) {
                 _this4.addedProducts = r.products;
-                console.log(_this4.addedProducts);
+                //console.log(this.addedProducts);
               });
             case 2:
               _this4.selectedInvoice = _this4.invoices.find(function (item) {
                 return item.id == id;
               });
-
-              //console.log(this.selectedInvoice);
-              //this.addedProducts = this.selectedInvoice.products;
               _this4.customer_name = _this4.selectedInvoice.customer_name;
               _this4.customer_phone = _this4.selectedInvoice.customer_phone;
               _this4.customer_city = _this4.selectedInvoice.customer_city;
@@ -18230,8 +18224,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
+    //add products to edit modal side table
     addProducts: function addProducts() {
       var _this5 = this;
+      //check if product is already added to table 
       if (this.addedProducts.find(function (item) {
         return item.product_id == _this5.selectedProduct.id;
       })) {
@@ -18271,6 +18267,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
         document.querySelector("#add_product_qty").focus();
       } else {
+        //pushing products to table
         this.addedProducts.push({
           "product_id": this.selectedProduct.id,
           "name": this.selectedProduct.name,
@@ -18283,12 +18280,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.selectedProduct = [];
         this.selectedProductID = '';
         this.qty = '';
-        console.log(this.addedProducts);
+        //console.log(this.addedProducts);
       }
     },
+    //remove from side table
     remove: function remove(id) {
-      console.log(id);
-      console.log(this.addedProducts);
+      //console.log(id);
+      //console.log(this.addedProducts);
       var price = this.addedProducts.find(function (item) {
         return item.product_id == id;
       }).rate;
@@ -18300,21 +18298,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       this.calculateOnRemove(price, qty);
     },
+    //re-calculates total amount if tax value get changes
     reCalculate: function reCalculate() {
       this.total = Math.round((this.subtotal + this.subtotal * this.tax * 0.01) * 100) / 100;
     },
+    //re-calculate after removing an item from side table
     calculateOnRemove: function calculateOnRemove(price, qty) {
       this.subtotal = Math.round((this.subtotal - price * qty) * 100) / 100;
       this.total = Math.round((this.subtotal + this.subtotal * this.tax * 0.01) * 100) / 100;
     },
+    //selects a products from products dropdown
     pickProduct: function pickProduct(id) {
       this.selectedProduct = this.products.find(function (item) {
         return item.id == id;
       });
-      console.log(this.selectedProduct);
+      //console.log(this.selectedProduct);
     },
     UpdateInvoice: function UpdateInvoice() {
-      var _this6 = this;
+      var _document$querySelect,
+        _this6 = this;
+      //toggling prelaoder
+      (_document$querySelect = document.querySelector("#loader-container")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.classList.toggle("hide");
       if (!this.customer_name) {
         Swal.fire({
           icon: 'error',
@@ -18381,7 +18385,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return r.json();
         }).then(function (r) {
           if (r.msg == "success") {
+            var _document$querySelect2;
+            (_document$querySelect2 = document.querySelector("#loader-container")) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.classList.toggle("hide");
             Swal.fire('Succesfully Updated', "", 'success');
+
+            //replacing old valued with new values
             _this6.selectedInvoice.customer_name = _this6.customer_name;
             _this6.selectedInvoice.customer_phone = _this6.customer_phone;
             _this6.selectedInvoice.customer_city = _this6.customer_city;
@@ -18390,6 +18398,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             _this6.selectedInvoice.total = _this6.total;
             _this6.selectedInvoice.subtotal = _this6.subtotal;
             _this6.selectedInvoice.tax = _this6.tax;
+
+            //resetting fields
             _this6.customer_name = '';
             _this6.customer_phone = '';
             _this6.customer_street = '';
@@ -18401,6 +18411,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             _this6.tax = 0;
             window.$('#bd-example-modal-lg').modal('toggle');
           } else {
+            var _document$querySelect3;
+            (_document$querySelect3 = document.querySelector("#loader-container")) === null || _document$querySelect3 === void 0 ? void 0 : _document$querySelect3.classList.toggle("hide");
             Swal.fire('Failed', "", 'error');
           }
         });
@@ -18418,6 +18430,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
+          var _document$querySelect4;
+          (_document$querySelect4 = document.querySelector("#loader-container")) === null || _document$querySelect4 === void 0 ? void 0 : _document$querySelect4.classList.toggle("hide");
           var payload = new FormData();
           payload.append("invoice_id", InvId);
           fetch("".concat(window.location.origin, "/api/delete-invoice"), {
@@ -18427,11 +18441,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             return r.json();
           }).then(function (r) {
             if (r.msg == "success") {
+              var _document$querySelect5;
+              (_document$querySelect5 = document.querySelector("#loader-container")) === null || _document$querySelect5 === void 0 ? void 0 : _document$querySelect5.classList.toggle("hide");
               _this7.invoices = _this7.invoices.filter(function (item) {
                 return item.id != InvId;
               });
               Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
             } else {
+              var _document$querySelect6;
+              (_document$querySelect6 = document.querySelector("#loader-container")) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.classList.toggle("hide");
               Swal.fire('Failed', "", 'error');
             }
           });

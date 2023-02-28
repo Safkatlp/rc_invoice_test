@@ -63,8 +63,6 @@
                     <button type="button" @click="createInvoice" class="btn btn-success create-button">Create Invoice</button>
                 </div>
 
-                
-                
 
                 <div class="col-md-6 vl">
                     <div class="separator separator-customer-details">Added Products</div>
@@ -139,12 +137,15 @@ export default {
 			.then(r => r.json())
 			.then(r=>{
 				this.products = r.products;
-                console.log(this.products);
+                //console.log(this.products);
 			});
         
     },
     methods: {
+        // add products to side table for purchase
         addProducts(){
+
+            //check if product is already added to table 
             if(this.addedProducts.find( (item) => item.id == this.selectedProduct.id)){
                 Swal.fire({
                     
@@ -188,10 +189,10 @@ export default {
                     timer: 2000
                 })
                 document.querySelector("#add_product_qty").focus();
-
                 
             }
             else{
+                //pushing products to table
                 this.addedProducts.push( {
                     "id":this.selectedProduct.id,
                     "name":this.selectedProduct.name,
@@ -205,15 +206,17 @@ export default {
                 this.selectedProduct = [];
                 this.selectedProductID = '';
                 this.qty = '';
-                console.log(this.addedProducts);
+                //console.log(this.addedProducts);
             }
             
         },
 
+        //re-calculates total amount if tax value get changes
         reCalculate(){
             this.total = Math.round( (this.subtotal + (this.subtotal * this.tax * 0.01) )*100 ) /100;
         },
 
+        //remove from side table
         remove(id){
             let price = this.addedProducts.find( (item) => item.id == id ).price;
             let qty = this.addedProducts.find( (item) => item.id == id ).qty;
@@ -222,12 +225,15 @@ export default {
             this.calculateOnRemove(price,qty);
         },
 
+        //re-calculate after removing an item from side table
         calculateOnRemove(price, qty){
             this.subtotal = Math.round( (this.subtotal - (price * qty) )*100 ) /100;
             this.total = Math.round( (this.subtotal + (this.subtotal * this.tax * 0.01) )*100 ) /100;
         },
 
         createInvoice(){
+            //toggling the preloader
+            document.querySelector("#loader-container")?.classList.toggle("hide");
 
             if(!this.customer_name){
                 Swal.fire({                    
@@ -315,7 +321,7 @@ export default {
                 .then( r => r.json())
                 .then( r => {
                     if(r.msg == "success"){
-
+                        document.querySelector("#loader-container")?.classList.toggle("hide")
                         Swal.fire(
                             'Succesfully Created',
                             ``,
@@ -332,6 +338,7 @@ export default {
                         this.tax = 0;
                     }
                     else{
+                        document.querySelector("#loader-container")?.classList.toggle("hide")
                         Swal.fire(
                             'Failed',
                             ``,
@@ -340,24 +347,15 @@ export default {
                     }
                 }); 
             }
-
             
         },
 
+        //selected product from products dropdown list
         pickProduct(id){
             this.selectedProduct = this.products.find( (item) => item.id == id );
-            console.log(this.selectedProduct);
+            //console.log(this.selectedProduct);
         },
 
-
-
-        show(){
-            swal.fire(
-                'ss',
-                '',
-                'success'
-            );
-        }
     }
 }
 </script>
