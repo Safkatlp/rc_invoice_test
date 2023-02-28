@@ -1,3 +1,5 @@
+An Invoice Generator Project made with Laravel and Vue.js  
+
 #clone the project
 
 #configure .env file for database configuration
