@@ -1,19 +1,21 @@
-clone the project
+#clone the project
 
-configure .env file for database configuration
+#configure .env file for database configuration
 
-run `composer update`
+#To setup the project run these commands in project root directory console
 
-run `php artisan key:generate`
+1) run `composer update`
 
-run `npm install`
+2) run `php artisan key:generate`
 
-run `php artisan migrate`
-run `php artisan migrate:fresh`
+3) run `npm install`
 
-run `php artisan db:seed`
+4) run `php artisan migrate` or `php artisan migrate:fresh`
 
-to run the project on local development server
+
+5) run `php artisan db:seed`
+
+6) to run the project on local development server
 run `php artisan serve`
 
 and in another console run 
