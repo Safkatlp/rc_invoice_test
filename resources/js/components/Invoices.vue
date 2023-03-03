@@ -4,6 +4,25 @@
         
         <div class="form-wrapper ">
             <div class="row">
+                <div class="row" style="border:1px dashed black; padding-top:1rem; padding-bottom:1rem; margin-bottom:2rem">
+                    <div class="col-md-3">
+                        
+                        <input class="form-control" type="text" placeholder="Invoice Id" id="search-invoice" v-model="search_inv_id"/>
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control" type="text" placeholder="Customer Name" id="search-invoice" v-model="search_customer_name"/>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" type="text" placeholder="Customer Phone" id="search-invoice" v-model="search_customer_phone"/>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-success" @click="search">Search</button>
+                    </div>                    
+                </div>
+
+
+
+
             <div class="col-md-12">
                 <table class="table table-striped">
                     <thead>
@@ -241,6 +260,9 @@ export default {
             inv_id : '',
             share_url: '',
             share_text: '',
+            search_inv_id : '',
+            search_customer_name : '',
+            search_customer_phone : '',
         }
     },
     async mounted(){       
@@ -603,6 +625,28 @@ export default {
             this.share_url = `${window.location.origin}/invoice/${InvId}`;
             this.share_text = `invoice ID: ${InvId}, Customer: ${customer_name}`;
                   
+        },
+
+
+        async search(){
+            let payload = new FormData();
+
+            payload.append("inv_id",this.search_inv_id);
+            payload.append("customer_name",this.search_customer_name);
+            payload.append("customer_phone",this.search_customer_phone);
+
+			await fetch(`${window.location.origin}/api/search/invoices/`,{
+				method: "POST",
+                body: payload
+			})
+            .then(r => r.json())
+			.then(r=>{
+				if(r.msg == "success"){
+                this.invoices = r.invoices.data;
+                this.pagination = r.invoices;
+                }
+			});
+            // alert("click");
         }
        
     }

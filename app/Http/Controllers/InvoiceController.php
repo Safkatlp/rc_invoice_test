@@ -112,6 +112,31 @@ class InvoiceController extends Controller
         dd($shareComponents);
         return  var_dump($shareComponents);
     }
+
+
+    public function searchInvoice(Request $request){
+        $id = $request->inv_id;
+        $customer_name = $request->customer_name;
+        $customer_phone = $request->customer_phone;
+
+        $invoices =  Invoice::where(function($query) use($id){
+                        if($id){
+                            $query->where("id",$id);
+                        }
+                    })
+                    ->where("customer_name","like","%$customer_name%")
+                    ->where("customer_phone","like","%$customer_phone%")
+                    ->paginate(5);
+             
+
+        // $invoices = Invoice::paginate(5);
+
+        return [
+            "msg" => "success",
+            "invoices" => $invoices
+        ];
+                    
+    }
 }
 
 
